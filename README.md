@@ -1,37 +1,31 @@
 # springboot-jpa-dds-starter
 
 #### 介绍
-基于springboot jpa 的saas业务动态数据源的实现，支持动态切换，增加，删除数据源
+基于springboot jpa 的saas业务动态数据源的实现，支持动态切换，增加，删除数据源.
 
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+#### 一般动态路由实现有2中形式
+1 使用Spring框架的AbstractRoutingDataSource，这种方式适合静态路由数据。
+  优点: 一个bean可以路由到多个数据源
+  缺点：无法动态添加数据源
+  
+2 控制IOC容器，为每个数据源动态添加相应的Repository的相关bean。
+  优点：可以动态添加数据源
+  缺点：一个数据源对应一个bean，数据源过多会创建较多的bean，导致内存占用多
+  
+本例子使用的第2种技术方案，且基于jpa的实现，基于mybatis的方案后面有空再做吧
 
 
-#### 码云特技
+#### 如何设置多个数据源
+参见application.properties配置
+实现一个DataSourceProvider接口，返回获取到的多个数据源信息。
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+容器启动的时候，会做bean的生成装配
+参见starter的DynamicDataSourceHolder类
+
+
+
+#### 如何路由
+
+当前线程的ThreadLocal中需要设置对应的数据源ID，一般是在请求的拦截器中获得放入SourceThreadLocal，参见例子的DataSourceInterceptor
+其他情况，自由发挥。
+本例子初衷是提供一种解决问题的思路，最好是通过代码掌握原理，做出最合适自己的一个组件。

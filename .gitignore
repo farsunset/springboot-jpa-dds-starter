@@ -11,7 +11,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -21,3 +20,11 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/target
+/.idea
+spring-boot-jpa-dds-example/.idea/
+spring-boot-jpa-dds-starter/.idea/
+spring-boot-jpa-dds-starter/target/
+spring-boot-jpa-dds-starter/.DS_Store
+spring-boot-jpa-dds-example/target/
+spring-boot-jpa-dds-example/.DS_Store
